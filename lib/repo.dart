@@ -17,6 +17,6 @@ class Repo {
   }
 }
 
-final randomProvider = Provider<int>((ref) {
-  return 1;
+final randomProvider = Provider<String>((ref) {
+  return 'hello world';
 });
