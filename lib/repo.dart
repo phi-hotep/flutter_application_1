@@ -16,3 +16,7 @@ class Repo {
     return Future.value(val);
   }
 }
+
+final randomProvider = Provider<int>((ref) {
+  return 1;
+});
