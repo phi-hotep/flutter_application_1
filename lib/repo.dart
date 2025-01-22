@@ -16,3 +16,11 @@ class Repo {
     return Future.value(val);
   }
 }
+
+@riverpod
+class Test extends _$Test {
+  @override
+  int build() {
+    return 1;
+  }
+}
