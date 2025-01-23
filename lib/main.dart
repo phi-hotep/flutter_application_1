@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 void main() async {
   runApp(
@@ -14,14 +16,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Named Routes demo',
-      //initialRoute: '/',
-      routes: {
-        ExtractArgumentsScreen.routeName: (context) =>
-            const ExtractArgumentsScreen()
-      },
-    );
+    return MaterialApp.router(routerConfig: router);
   }
 }
 
@@ -35,15 +30,23 @@ class MyHomePage extends ConsumerWidget {
           title: const Text('Test code'),
         ),
         body: Center(
-          child: ElevatedButton(
-            onPressed: () {
-              Navigator.pushNamed(context, ExtractArgumentsScreen.routeName,
-                  arguments: ScreenArguments(
-                      title: 'test titre', message: 'Test message'));
-            },
-            child: const Text('Navigate'),
-          ),
-        ));
+            child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                context.go("/otherPage");
+              },
+              child: const Text('Go to otherpage'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                context.go("/sub");
+              },
+              child: const Text('Go to Sub'),
+            ),
+          ],
+        )));
   }
 }
 
@@ -59,7 +62,7 @@ class OtherPage extends ConsumerWidget {
       body: Center(
         child: ElevatedButton(
             onPressed: () {
-              Navigator.pop(context);
+              context.go("/");
             },
             child: const Text('Back')),
       ),
@@ -67,28 +70,31 @@ class OtherPage extends ConsumerWidget {
   }
 }
 
-class ScreenArguments {
-  final String title;
-  final String message;
-
-  ScreenArguments({required this.title, required this.message});
-}
-
-class ExtractArgumentsScreen extends ConsumerWidget {
-  const ExtractArgumentsScreen({super.key});
-
-  static const routeName = '/extractArguments';
+class Sub extends ConsumerWidget {
+  const Sub({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
     return Scaffold(
-      appBar: AppBar(
-        title: Text(args.title),
-      ),
       body: Center(
-        child: Text(args.message),
+        child: ElevatedButton(
+          onPressed: () {
+            context.go('/sub/subSub');
+          },
+          child: const Text('Go to Sub Sub'),
+        ),
       ),
+    );
+  }
+}
+
+class Subsub extends ConsumerWidget {
+  const Subsub({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Container(
+      color: Colors.red,
     );
   }
 }
